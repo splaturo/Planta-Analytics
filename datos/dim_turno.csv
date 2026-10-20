@@ -1,0 +1,4 @@
+﻿id_turno,turno,horario
+1,Matutino,06:00-14:00
+2,Vespertino,14:00-22:00
+3,Nocturno,22:00-06:00
