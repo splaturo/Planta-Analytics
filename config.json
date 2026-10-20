@@ -1,0 +1,10 @@
+{
+  "rutas": { "raw": "data/raw" },
+  "tablas": {
+    "raw": [
+      "dim_producto", "dim_linea", "dim_turno", "dim_proveedor",
+      "fact_produccion", "fact_defectos", "fact_paros",
+      "fact_entregas_proveedor", "fact_tickets_ti"
+    ]
+  }
+}
