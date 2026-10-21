@@ -1,5 +1,5 @@
 {
-  "rutas": { "raw": "data/raw" },
+  "rutas": { "raw": "data/raw", "outputs" : "outputs/transformer" },
   "tablas": {
     "raw": [
       "dim_producto", "dim_linea", "dim_turno", "dim_proveedor",

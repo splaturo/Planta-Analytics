@@ -3,6 +3,7 @@ import logging
 from pathlib import Path
 
 from src.extractors import Extractor
+from src.transformers import Transformer
 
 RAIZ = Path(__file__).resolve().parent
 
@@ -17,9 +18,13 @@ def main() -> None:
 
     extractor = Extractor(RAIZ / cfg["rutas"]["raw"])
     tablas = extractor.read_all(cfg["tablas"]["raw"])
-
     print(f"\nTablas leídas: {len(tablas)}")
-    print(tablas["dim_linea"])
+
+    transformer = Transformer(RAIZ / cfg["rutas"]["outputs"])
+    tablas = transformer.clean_all(tablas)                                          
+
+    print(tablas["dim_turno"])
+    print(tablas["fact_tickets_ti"].head(3))
 
 
 if __name__ == "__main__":

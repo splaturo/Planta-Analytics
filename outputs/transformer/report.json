@@ -1,0 +1,164 @@
+{
+    "dim_producto": {
+        "raw": {
+            "size": [
+                5,
+                5
+            ],
+            "nulls": 0,
+            "duplicated": 0
+        },
+        "processed": {
+            "size": [
+                5,
+                5
+            ],
+            "nulls": 0,
+            "duplicated": 0
+        }
+    },
+    "dim_linea": {
+        "raw": {
+            "size": [
+                5,
+                3
+            ],
+            "nulls": 0,
+            "duplicated": 0
+        },
+        "processed": {
+            "size": [
+                5,
+                3
+            ],
+            "nulls": 0,
+            "duplicated": 0
+        }
+    },
+    "dim_turno": {
+        "raw": {
+            "size": [
+                3,
+                3
+            ],
+            "nulls": 0,
+            "duplicated": 0
+        },
+        "processed": {
+            "size": [
+                3,
+                3
+            ],
+            "nulls": 0,
+            "duplicated": 0
+        }
+    },
+    "dim_proveedor": {
+        "raw": {
+            "size": [
+                12,
+                4
+            ],
+            "nulls": 0,
+            "duplicated": 0
+        },
+        "processed": {
+            "size": [
+                12,
+                4
+            ],
+            "nulls": 0,
+            "duplicated": 0
+        }
+    },
+    "fact_produccion": {
+        "raw": {
+            "size": [
+                4695,
+                10
+            ],
+            "nulls": 0,
+            "duplicated": 0
+        },
+        "processed": {
+            "size": [
+                4695,
+                10
+            ],
+            "nulls": 0,
+            "duplicated": 0
+        }
+    },
+    "fact_defectos": {
+        "raw": {
+            "size": [
+                19574,
+                4
+            ],
+            "nulls": 0,
+            "duplicated": 0
+        },
+        "processed": {
+            "size": [
+                19574,
+                4
+            ],
+            "nulls": 0,
+            "duplicated": 0
+        }
+    },
+    "fact_paros": {
+        "raw": {
+            "size": [
+                7350,
+                8
+            ],
+            "nulls": 0,
+            "duplicated": 0
+        },
+        "processed": {
+            "size": [
+                7350,
+                8
+            ],
+            "nulls": 0,
+            "duplicated": 0
+        }
+    },
+    "fact_entregas_proveedor": {
+        "raw": {
+            "size": [
+                3144,
+                9
+            ],
+            "nulls": 0,
+            "duplicated": 0
+        },
+        "processed": {
+            "size": [
+                3144,
+                9
+            ],
+            "nulls": 0,
+            "duplicated": 0
+        }
+    },
+    "fact_tickets_ti": {
+        "raw": {
+            "size": [
+                3748,
+                9
+            ],
+            "nulls": 1723,
+            "duplicated": 22
+        },
+        "processed": {
+            "size": [
+                3726,
+                9
+            ],
+            "duplicated": 0,
+            "nulls": 1666
+        }
+    }
+}
