@@ -1,10 +1,22 @@
 {
-  "rutas": { "raw": "data/raw", "outputs" : "outputs/transformer" },
+  "rutas": { "raw": "data/raw", "outputs" : "outputs/transformer", "processed": "data/processed" },
   "tablas": {
     "raw": [
       "dim_producto", "dim_linea", "dim_turno", "dim_proveedor",
       "fact_produccion", "fact_defectos", "fact_paros",
       "fact_entregas_proveedor", "fact_tickets_ti"
-    ]
-  }
+    ],
+    "orden_carga": [
+    "dim_producto", "dim_linea", "dim_turno", "dim_proveedor", "dim_fecha",
+    "fact_produccion", "fact_defectos", "fact_paros",
+    "fact_entregas_proveedor", "fact_tickets_ti"
+  ]
+  },
+  
+  "mysql": {
+  "host": "127.0.0.1",
+  "port": 3306,
+  "nombre": "planta_analytics"}
 }
+
+

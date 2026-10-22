@@ -68,6 +68,15 @@ class Transformer:
         df = df_raw.copy()
         df = self._perfil(df,name)
         
+      
+        df["fecha_oc"] = pd.to_datetime(df["fecha_oc"])
+        df["fecha_prometida"] = pd.to_datetime(df["fecha_prometida"])
+        df["fecha_entrega"] = pd.to_datetime(df["fecha_entrega"])
+        
+        
+        df["a_tiempo"] = (df["fecha_entrega"] <= df["fecha_prometida"]).astype(int)
+        df["dias_retraso"] = (df["fecha_entrega"] - df["fecha_prometida"]).dt.days.clip(lower=0)
+        
         return df
         
         
@@ -89,8 +98,17 @@ class Transformer:
         
         df["categoria"] = df["categoria"].fillna("sin categoría")
         df["categoria"] = df["categoria"].str.strip().str.lower()
-        df["area_solicitante"] = df["area_solicitante"].fillna("Sin especificar")   # NUEVO
+        df["area_solicitante"] = df["area_solicitante"].fillna("Sin especificar")
         df["Estatus"] = df["fecha_resolucion"].apply(lambda x: "Abierto" if pd.isna(x) else "Cerrado")
+        
+    
+        df["fecha_creacion"] = pd.to_datetime(df["fecha_creacion"])
+        df["fecha_resolucion"] = pd.to_datetime(df["fecha_resolucion"])
+        
+      
+        df["horas_resolucion"] = ((df["fecha_resolucion"] - df["fecha_creacion"]).dt.total_seconds() / 3600).round(2)
+        df["sla_horas"] = df["prioridad"].map({"Crítica": 4, "Alta": 8, "Media": 24, "Baja": 72})
+        df["cumple_sla"] = (df["horas_resolucion"] <= df["sla_horas"]).astype("Int64").where(df["horas_resolucion"].notna())
         
         self.report[name]["processed"]["nulls"] = int(df.isna().sum().sum())
                                                 
@@ -110,4 +128,4 @@ class Transformer:
         with open(self.params / "report.json", "w") as f:
             json.dump(self.report, f, indent=4)
         
-        return limpias                                                           
+        return limpias
