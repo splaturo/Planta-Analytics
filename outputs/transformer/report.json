@@ -160,5 +160,15 @@
             "duplicated": 0,
             "nulls": 1668
         }
+    },
+    "dim_fecha": {
+        "processed": {
+            "size": [
+                426,
+                10
+            ],
+            "desde": "2025-08-01",
+            "hasta": "2026-09-30"
+        }
     }
 }

@@ -2,6 +2,13 @@ import pandas as pd
 from collections import defaultdict
 import json
 
+MESES = {1: "enero", 2: "febrero", 3: "marzo", 4: "abril", 5: "mayo", 6: "junio",
+         7: "julio", 8: "agosto", 9: "septiembre", 10: "octubre",
+         11: "noviembre", 12: "diciembre"}
+DIAS = {1: "lunes", 2: "martes", 3: "miércoles", 4: "jueves",
+        5: "viernes", 6: "sábado", 7: "domingo"}
+
+
 class Transformer:
     def __init__(self,params):
         self.params = params
@@ -105,14 +112,46 @@ class Transformer:
         df["fecha_creacion"] = pd.to_datetime(df["fecha_creacion"])
         df["fecha_resolucion"] = pd.to_datetime(df["fecha_resolucion"])
         
-      
         df["horas_resolucion"] = ((df["fecha_resolucion"] - df["fecha_creacion"]).dt.total_seconds() / 3600).round(2)
         df["sla_horas"] = df["prioridad"].map({"Crítica": 4, "Alta": 8, "Media": 24, "Baja": 72})
         df["cumple_sla"] = (df["horas_resolucion"] <= df["sla_horas"]).astype("Int64").where(df["horas_resolucion"].notna())
         
+        df["fecha_creacion"] = df["fecha_creacion"].dt.normalize()
+        df["fecha_resolucion"] = df["fecha_resolucion"].dt.normalize()
+        
         self.report[name]["processed"]["nulls"] = int(df.isna().sum().sum())
                                                 
         
+        return df
+
+    def build_dim_fecha(self, tablas):
+        """Genera dim_fecha con un día por fila, cubriendo todas las fechas de los hechos."""
+        fechas = []
+        for nombre, df in tablas.items():
+            for col in df.columns:
+                if col.startswith("fecha"):
+                    fechas.append(pd.to_datetime(df[col]).dropna())
+
+        todas = pd.concat(fechas)
+        inicio = todas.min().to_period("M").start_time
+        fin = todas.max().to_period("M").end_time.normalize()
+
+        df = pd.DataFrame({"fecha": pd.date_range(inicio, fin, freq="D")})
+        df["anio"] = df["fecha"].dt.year
+        df["mes_num"] = df["fecha"].dt.month
+        df["mes"] = df["mes_num"].map(MESES)
+        df["anio_mes"] = df["fecha"].dt.strftime("%Y-%m")
+        df["trimestre"] = "T" + df["fecha"].dt.quarter.astype(str)
+        df["semana_iso"] = df["fecha"].dt.isocalendar().week.astype(int)
+        df["dia_semana_num"] = df["fecha"].dt.dayofweek + 1
+        df["dia_semana"] = df["dia_semana_num"].map(DIAS)
+        df["es_laboral"] = (df["dia_semana_num"] != 7).astype(int)
+
+        self.report["dim_fecha"]["processed"] = {
+            "size": df.shape,
+            "desde": str(df["fecha"].min().date()),
+            "hasta": str(df["fecha"].max().date())}
+
         return df
         
     
@@ -123,6 +162,8 @@ class Transformer:
         for name, df in tablas.items():
             
             limpias[name] = getattr(self, f"clean_{name}")(df,name)                
+
+        limpias["dim_fecha"] = self.build_dim_fecha(limpias)
    
                 
         with open(self.params / "report.json", "w") as f:

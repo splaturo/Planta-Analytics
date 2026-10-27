@@ -158,8 +158,8 @@ CREATE TABLE fact_entregas_proveedor (
 -- horas_resolucion, sla_horas y cumple_sla son derivadas (vacías hasta que el transformer las calcule).
 CREATE TABLE fact_tickets_ti (
     id_ticket         CHAR(10)     NOT NULL,
-    fecha_creacion    DATETIME     NOT NULL,
-    fecha_resolucion  DATETIME     NULL,
+    fecha_creacion    DATE    NOT NULL,
+    fecha_resolucion  DATE     NULL,
     categoria         VARCHAR(40)  NOT NULL,
     prioridad         VARCHAR(10)  NOT NULL,
     area_solicitante  VARCHAR(40)  NOT NULL,
